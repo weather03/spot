@@ -66,538 +66,102 @@
     flex: 1; } }
 
 </style>
+
 <style>
-	.login {
-  display: grid;
-  place-items: center;
+	@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Red+Hat+Display:wght@300;400;500&display=swap");
+* {
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  user-select: none;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Red Hat Display", sans-serif;
+  font-family: "Poppins", sans-serif; }
+
+:root {
+  --background-color: #040404;
+  --logo-color: #1ed15e;
+  --text-color: #fff;
+  --heading-font-family: "Poppins", sans-serif;
+  --text-font-family: "Red Hat Display", sans-serif; }
+
+body {
+  position: relative;
+  width: 100%;
+  height: 100%; }
+
+body::-webkit-scrollbar {
+  display: none; }
+
+main {
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh; }
+  @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700");
+@keyframes scale {
+  from {
+    transform: scale(0); }
+  to {
+    transform: scale(1); } }
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; }
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
   height: 100%;
-  background-color: var(--background-color);
-  display: flex;
-  flex-direction: column; }
-  .login .login__logo {
-    width: 100%;
-	height: 100%;
-    overflow: hidden;
-    -o-object-fit: contain;
-    -ms-object-fit: contain;
-    -webkit-object-fit: contain;
-    object-fit: contain; }
-  .login .logo__btns {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    width: 100%; }
-    .login .logo__btns .login__spotifyBtn,
-    .login .logo__btns .login__googleBtn,
-    .login .logo__btns .login__btn {
-      padding: 20px;
-      cursor: pointer;
-      border-radius: 99px;
-      background-color: var(--logo-color);
-      font-weight: 600 !important;
-      color: var(--text-color);
-      text-decoration: none;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 300; }
+  .modal .modal-content {
+    margin: 20% auto;
+    max-width: 500px;
+    background-color: #fff;
+    padding: 20px;
+    animation: scale 0.5s ease;
+    border-radius: 10px;
+    box-shadow: 6.7px 6.7px 5.3px rgba(0, 0, 0, 0.02), 22.3px 22.3px 17.9px rgba(0, 0, 0, 0.03), 100px 100px 80px rgba(0, 0, 0, 0.05); }
+    .modal .modal-content #close-modal {
+      float: right;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer; }
+    .modal .modal-content .modal-body {
+      margin-top: 5px;
       display: flex;
-      justify-content: center;
-      align-items: center;
-      word-spacing: 0.1rem;
-      letter-spacing: 0.05rem;
-      font-weight: 800;
-      box-shadow: 0px 4px 5px rgba(54, 200, 0, 0.5);
-      transition: 0.1s ease-in; }
-      .login .logo__btns .login__spotifyBtn i,
-      .login .logo__btns .login__googleBtn i,
-      .login .logo__btns .login__btn i {
-        margin-right: 10px;
-        color: var(--text-color);
-        font-size: 0.9rem;
-        background-color: var(--background-color);
-        border-radius: 50%;
-        padding: 3.5px; }
-      .login .logo__btns .login__spotifyBtn img,
-      .login .logo__btns .login__googleBtn img,
-      .login .logo__btns .login__btn img {
-        width: 20px;
-        height: 20px;
-        margin-right: 10px;
-        border-radius: 50%; }
-      .login .logo__btns .login__spotifyBtn:hover,
-      .login .logo__btns .login__googleBtn:hover,
-      .login .logo__btns .login__btn:hover {
-        color: var(--background-color); }
+      justify-content: flex-start;
+      align-items: center; }
+      .modal .modal-content .modal-body .social {
+        width: 5rem;
+        height: 5rem;
+        cursor: pointer; }
+      .modal .modal-content .modal-body .twitter {
+        width: 5.6rem;
+        height: 5.6rem; }
 
-.player .player__body {
-  display: flex; }
-
-@media screen and (max-width: 700px) {
-  .login .logo__btns {
-    flex-direction: column;
-    flex: 1; } }
+@media screen and (max-width: 500px) {
+  .modal .modal-content {
+    margin-top: 50%; } }
 
 </style>
-<script>
-	{
-	try {
-		let Tracks;
-		let currentTrack;
-		let playbarVisible;
-		let volume;
-		let isPlaying;
-		let loop;
 
-		let footer = document.querySelector(".footer");
-		let songs = document.querySelectorAll(".playable-tracks");
-		let play_pause = footer.querySelector(".play-pause");
-		let audio = document.querySelector("audio");
-		let volumeControl = footer.querySelector(".song_volume");
-		let clearQueue = footer.querySelector(".clearQueue");
-		let forward = footer.querySelector(".forward");
-		let backward = footer.querySelector(".backward");
-		let repeat = footer.querySelector(".repeat");
-		let shuffle = footer.querySelector(".shuffle");
 
-		const fetchAPI = async (url, options = {}) => {
-			try {
-				const response = await fetch(url, options);
-				const data = await response.json();
-				return data;
-			} catch (error) {
-				console.log(error);
-			}
-		};
 
-		const onPageRefresh = () => {
-			window.addEventListener("beforeunload", async function (e) {
-				e.preventDefault();
-				const data = await fetchAPI("/queue");
-				const Queue = data.data;
 
-				({ Tracks, currentTrack, playbarVisible, volume, isPlaying, loop } =
-					Queue);
 
-				if (isPlaying && Tracks[currentTrack].isPlaying) {
-					Tracks[currentTrack].currentTime = audio.currentTime;
-					Tracks[currentTrack].isPlaying = true;
-					Tracks[currentTrack].duration = audio.duration;
 
-					await fetchAPI("/queue/update", {
-						method: "PUT",
-						headers: { "Content-Type": "application/json" },
-						body: JSON.stringify({
-							Track: Tracks[currentTrack],
-							currentTrack,
-							playbarVisible,
-							volume,
-							isPlaying: true,
-							loop,
-						}),
-					});
-				}
-				return;
-			});
-		};
 
-		const getQueueData = async () => {
-			try {
-				const data = await fetchAPI("/queue");
-				const Queue = data.data;
-
-				({ Tracks, currentTrack, playbarVisible, volume, isPlaying, loop } =
-					Queue);
-
-				togglePlayBar(Tracks[currentTrack]);
-
-				audio.src = Tracks[currentTrack].url;
-				audio.volume = volume;
-				audio.currentTime = Tracks[currentTrack].currentTime;
-				volumeControl.value = volume * 100;
-				Tracks[currentTrack].duration = audio.duration;
-
-				if (playbarVisible && isPlaying) {
-					await pause(Tracks[currentTrack]);
-					play_pause.classList.remove("fa-circle-pause");
-					play_pause.classList.add("fa-circle-play");
-				} else if (playbarVisible && !isPlaying) {
-					footer.click();
-					await play(Tracks[currentTrack]);
-					play_pause.classList.remove("fa-circle-play");
-					play_pause.classList.add("fa-circle-pause");
-				}
-				footer.click();
-				await play(Tracks[currentTrack]);
-				play_pause.classList.remove("fa-circle-play");
-				play_pause.classList.add("fa-circle-pause");
-				console.log("Tracks: ", Tracks);
-				console.log("currentTrack: ", currentTrack);
-				console.log("playbarVisible: ", playbarVisible);
-				console.log("volume: ", volume);
-				console.log("isPlaying: ", isPlaying);
-			} catch (error) {}
-		};
-
-		const playbar = async () => {
-			if (songs && songs.length > 0) {
-				for (let song of songs) {
-					song.addEventListener("click", async (e) => {
-						e.stopPropagation();
-						e.preventDefault();
-						const name = song.getAttribute("data-song-name");
-						const artist = song.getAttribute("data-song-artist");
-						const url = song.getAttribute("data-song-url");
-						const thumbnail = song.getAttribute("data-song-thumbnail");
-						const name1 = name.trim().toLowerCase();
-						const name2 = Tracks[currentTrack]?.name.trim().toLowerCase();
-						const duration = 0;
-						const currentTime = 0;
-						const ended = false;
-
-						if (name1 === name2) {
-							if (isPlaying) {
-								await pause(Tracks[currentTrack]);
-								play_pause.classList.remove("fa-circle-pause");
-								play_pause.classList.add("fa-circle-play");
-								return;
-							} else {
-								await play(Tracks[currentTrack]);
-								play_pause.classList.remove("fa-circle-play");
-								play_pause.classList.add("fa-circle-pause");
-								return;
-							}
-						}
-
-						const Track = {
-							name,
-							artist,
-							url,
-							thumbnail,
-							duration,
-							currentTime,
-							ended,
-							isPlaying: true,
-						};
-
-						let arr = Tracks.filter(
-							(track) =>
-								track.name.trim().toLowerCase() ===
-								Track.name.trim().toLowerCase()
-						);
-						if (arr.length > 0) {
-							currentTrack = Tracks.findIndex((track) => {
-								return (
-									track.name.trim().toLowerCase() ===
-									Track.name.trim().toLowerCase()
-								);
-							});
-							if (currentTrack === -1) return;
-							audio.src = Tracks[currentTrack].url;
-							audio.volume = volume;
-							await play(Tracks[currentTrack]);
-							await togglePlayBar(Tracks[currentTrack]);
-							if (Tracks[currentTrack].isPlaying) {
-								play_pause.classList.remove("fa-circle-play");
-								play_pause.classList.add("fa-circle-pause");
-							}
-							return;
-						}
-
-						const data = await fetchAPI("/queue/add", {
-							method: "POST",
-							headers: {
-								"Content-Type": "application/json",
-							},
-							body: JSON.stringify({
-								Track: Track,
-								currentTrack: currentTrack,
-								playbarVisible: playbarVisible,
-								volume: volume,
-								isPlaying: isPlaying,
-								loop: loop,
-							}),
-						});
-						const Queue = data.data;
-						({
-							Tracks,
-							currentTrack,
-							playbarVisible,
-							volume,
-							isPlaying,
-							loop,
-						} = Queue);
-
-						audio.src = Tracks[currentTrack].url;
-						audio.volume = volume;
-						await play(Tracks[currentTrack]);
-						await togglePlayBar(Tracks[currentTrack]);
-
-						if (Tracks[currentTrack].isPlaying) {
-							play_pause.classList.remove("fa-circle-play");
-							play_pause.classList.add("fa-circle-pause");
-						}
-					});
-				}
-			}
-			volumeControl.addEventListener("input", async (e) => {
-				await volumeChange(e);
-			});
-			volumeControl.addEventListener("wheel", async (e) => {
-				await volumeScroll(e);
-			});
-			play_pause.addEventListener("click", async (e) => {
-				await playToggle(Tracks[currentTrack], e);
-			});
-			forward.addEventListener("click", async (e) => {
-				await next();
-			});
-			backward.addEventListener("click", async (e) => {
-				await previous();
-			});
-			clearQueue.addEventListener("click", async (e) => {
-				await deleteQueue();
-			});
-			repeat.addEventListener("click", async (e) => {
-				await toggleLoop(e);
-			});
-			shuffle.addEventListener("click", async (e) => {
-				await playlistShuffle();
-			});
-			audio.addEventListener("ended", async (e) => {
-				await stop();
-				if (currentTrack === Tracks.length - 1) {
-					if (!loop) {
-						await pause(Tracks[currentTrack]);
-						play_pause.classList.remove("fa-circle-pause");
-						play_pause.classList.add("fa-circle-play");
-					}
-				}
-				await next();
-			});
-		};
-
-		const playlistShuffle = async () => {
-			const FisherYatesAlgorithm = (Tracks) => {
-				let PointerIndex = Tracks.length;
-				let RandomIndex;
-				// While the Array Length or the PointerIndex is greater than 0
-				while (PointerIndex !== 0) {
-					// Pick a RandomIndex between 0 and PointerIndex - 1
-					RandomIndex = Math.floor(Math.random() * PointerIndex);
-					PointerIndex -= 1;
-
-					// Do nothing for the Current Track.
-					if (RandomIndex === currentTrack) continue;
-					if (PointerIndex === currentTrack) continue;
-
-					// Swap the PointerIndex & RandomIndex Elements.
-					[Tracks[PointerIndex], Tracks[RandomIndex]] = [
-						Tracks[RandomIndex],
-						Tracks[PointerIndex],
-					];
-				}
-				return Tracks;
-			};
-			FisherYatesAlgorithm(Tracks);
-			new Noty({
-				theme: "metroui",
-				text: "Playlist Shuffled",
-				type: "success",
-				layout: "topRight",
-				timeout: 3000,
-			}).show();
-			await fetchAPI("/queue/shuffle", {
-				method: "PUT",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ Tracks, currentTrack }),
-			});
-		};
-
-		const toggleLoop = async (e) => {
-			loop = !loop;
-			if (loop) e.target.classList.add("footer__green");
-			if (!loop) e.target.classList.remove("footer__green");
-			new Noty({
-				theme: "metroui",
-				text: "Loop is now " + (loop ? "ON" : "OFF"),
-				type: "success",
-				layout: "topRight",
-				timeout: 3000,
-			}).show();
-			const data = await fetchAPI("/queue/repeat", {
-				method: "PUT",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ loop }),
-			});
-			loop = data.data.loop;
-		};
-
-		const play = async (Track) => {
-			await audio.play();
-			isPlaying = true;
-			playbarVisible = true;
-			Track.duration = audio.duration;
-			Track.currentTime = audio.currentTime;
-			Track.isPlaying = !audio.paused;
-			Track.ended = audio.ended;
-			await fetchAPI("/queue/update", {
-				method: "PUT",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					Track,
-					currentTrack,
-					playbarVisible,
-					volume,
-					isPlaying,
-					loop,
-				}),
-			});
-		};
-
-		const pause = async (Track) => {
-			await audio.pause();
-			isPlaying = false;
-			playbarVisible = true;
-			Track.duration = audio.duration;
-			Track.currentTime = audio.currentTime;
-			Track.isPlaying = !audio.paused;
-			Track.ended = audio.ended;
-			await fetchAPI("/queue/update", {
-				method: "PUT",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					Track,
-					currentTrack,
-					playbarVisible,
-					volume,
-					isPlaying,
-					loop,
-				}),
-			});
-		};
-
-		const stop = async () => {
-			if (!audio.src) return;
-			await audio.pause();
-			audio.currentTime = 0;
-		};
-
-		const next = async () => {
-			if (currentTrack === Tracks.length - 1 && !loop) return;
-			await stop();
-			if (currentTrack === Tracks.length - 1 && loop) currentTrack = 0;
-			else if (currentTrack !== Tracks.length - 1 && loop) currentTrack++;
-			else if (currentTrack !== Tracks.length - 1 && !loop) currentTrack++;
-			audio.src = Tracks[currentTrack].url;
-			audio.volume = volume;
-			play_pause.classList.remove("fa-circle-play");
-			play_pause.classList.add("fa-circle-pause");
-			await togglePlayBar(Tracks[currentTrack]);
-			await play(Tracks[currentTrack]);
-		};
-
-		const previous = async () => {
-			if (currentTrack === 0 && !loop) return;
-			await stop();
-			if (currentTrack === 0 && loop) currentTrack = Tracks.length - 1;
-			else if (currentTrack !== 0 && loop) currentTrack--;
-			else if (currentTrack !== 0 && !loop) currentTrack--;
-			audio.src = Tracks[currentTrack].url;
-			audio.volume = volume;
-			play_pause.classList.remove("fa-circle-play");
-			play_pause.classList.add("fa-circle-pause");
-			await togglePlayBar(Tracks[currentTrack]);
-			await play(Tracks[currentTrack]);
-		};
-
-		const deleteQueue = async () => {
-			await stop();
-			Tracks = [];
-			currentTrack = -1;
-			playbarVisible = false;
-			volume = 0.1;
-			isPlaying = false;
-			loop = false;
-			await fetchAPI("/queue/clear", { method: "DELETE" });
-			await togglePlayBar();
-		};
-
-		const volumeScroll = async (e) => {
-			e.stopPropagation();
-			if (e.deltaY < 0) {
-				e.target.valueAsNumber += 1;
-				audio.volume = e.target.value / 100;
-			} else {
-				e.target.value -= 1;
-				audio.volume = e.target.value / 100;
-			}
-			volume = audio.volume;
-			volumeControl.value = volume * 100;
-			await fetchAPI("/queue/volume", {
-				method: "PUT",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					volume: volume,
-				}),
-			});
-			e.preventDefault();
-		};
-
-		const volumeChange = async (e) => {
-			audio.volume = e.target.value / 100;
-			volume = audio.volume;
-			volumeControl.value = volume * 100;
-			await fetchAPI("/queue/volume", {
-				method: "PUT",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					volume: volume,
-				}),
-			});
-		};
-
-		const playToggle = async (Track, e) => {
-			if (Track.isPlaying) {
-				await pause(Track);
-				e.target.classList.remove("fa-circle-pause");
-				e.target.classList.add("fa-circle-play");
-			} else {
-				await play(Track);
-				e.target.classList.remove("fa-circle-play");
-				e.target.classList.add("fa-circle-pause");
-			}
-		};
-
-		const togglePlayBar = async (Track = []) => {
-			if (playbarVisible) {
-				footer.style.display = "flex";
-				const album = footer.querySelector(".footer__albumLogo");
-				const name = footer.querySelector(".footer__songInfo h4");
-				const artist = footer.querySelector(".footer__songInfo p");
-				album.src = Track.thumbnail;
-				name.textContent = Track.name;
-				artist.textContent = Track.artist;
-				if (loop) repeat.classList.add("footer__green");
-				if (!loop) repeat.classList.remove("footer__green");
-			} else {
-				footer.style.display = "none";
-			}
-		};
-
-		onPageRefresh();
-		getQueueData();
-		playbar();
-	} catch (error) {
-		console.log(error);
-	}
-}
-
-</script>
 
 <% if(locals.user){ %> <%- include('modal.ejs') -%>
 <div class="player">
@@ -635,3 +199,1171 @@
 	</div>
 </div>
 <% } %>
+
+<script def>
+	window.onload=function(){
+		const modal = document.querySelector(".modal");
+const openModalBtn = document.querySelector("#open-modal");
+const openModalBtn2 = document.querySelector("#open-modal2");
+const closeModalBtn = document.querySelector("#close-modal");
+
+openModalBtn.addEventListener("click", function () {
+	modal.style.display = "block";
+});
+
+openModalBtn2.addEventListener("click", function () {
+	modal.style.display = "block";
+});
+
+closeModalBtn.addEventListener("click", function () {
+	modal.style.display = "none";
+});
+
+
+	}
+</script>
+
+
+<script>
+  window.onload=function(){
+
+    const modal = document.querySelector(".modal");
+const openModalBtn = document.querySelector("#open-modal");
+const openModalBtn2 = document.querySelector("#open-modal2");
+const closeModalBtn = document.querySelector("#close-modal");
+
+openModalBtn.addEventListener("click", function () {
+modal.style.display = "block";
+});
+
+openModalBtn2.addEventListener("click", function () {
+modal.style.display = "block";
+});
+
+closeModalBtn.addEventListener("click", function () {
+modal.style.display = "none";
+});
+
+
+try {
+  const jsMediaQuery = (width) => {
+    const sidebar = document.querySelector(".sidebar");
+    if (width.matches) {
+      sidebar.style.display = "none";
+    } else {
+      sidebar.style.display = "initial";
+    }
+  };
+  const sidebar = () => {
+    const width = window.matchMedia("(max-width: 700px)");
+    jsMediaQuery(width);
+    width.addEventListener("change", jsMediaQuery);
+  };
+  sidebar();
+} catch (error) {
+  console.log(error);
+}
+//Playlist Screen Name & Poster Update
+try {
+  const playlist = () => {
+    const playlistPoster = document.querySelector(".playlistPoster");
+    const playlistNameInput = document.querySelector(
+      ".playlist_nameInput"
+    );
+    const playlistName = document.querySelector(".playlist_name");
+
+    playlistName.onclick = (e) => {
+      e.target.classList.toggle("active");
+      playlistNameInput.classList.toggle("active");
+      playlistNameInput.focus();
+      //To place the cursor at the end of the input
+      const length = playlistNameInput.value.length;
+      playlistNameInput.setSelectionRange(length, length);
+    };
+
+    playlistNameInput.onkeypress = (e) => {
+      if (e.key === "Enter") {
+        e.target.classList.toggle("active");
+        playlistName.classList.toggle("active");
+        playlistName.textContent = "";
+        playlistName.textContent = e.target.value;
+      }
+    };
+
+    playlistNameInput.onchange = (e) => {
+      e.target.classList.toggle("active");
+      playlistName.classList.toggle("active");
+      playlistName.textContent = "";
+      playlistName.textContent = e.target.value;
+      // console.log(e.target.value);
+      e.target.blur();
+    };
+
+    playlistPoster.onchange = (e) => {
+      // console.log(e.target.files[0]);
+    };
+  };
+  playlist();
+} catch (error) {
+  // console.log(error);
+}
+//Dropdown Menu
+try {
+  const header = () => {
+    const dropdown = document.querySelector(".header__right");
+    const dropdownMenu = document.querySelector(".dropdown_menu");
+    dropdown.onclick = () => {
+      dropdownMenu.classList.toggle("active");
+    };
+  };
+  header();
+} catch (error) {
+  console.log(error);
+}
+
+
+
+{
+try {
+  let Tracks;
+  let currentTrack;
+  let playbarVisible;
+  let volume;
+  let isPlaying;
+  let loop;
+
+  let footer = document.querySelector(".footer");
+  let songs = document.querySelectorAll(".playable-tracks");
+  let play_pause = footer.querySelector(".play-pause");
+  let audio = document.querySelector("audio");
+  let volumeControl = footer.querySelector(".song_volume");
+  let clearQueue = footer.querySelector(".clearQueue");
+  let forward = footer.querySelector(".forward");
+  let backward = footer.querySelector(".backward");
+  let repeat = footer.querySelector(".repeat");
+  let shuffle = footer.querySelector(".shuffle");
+
+  const fetchAPI = async (url, options = {}) => {
+    try {
+      const response = await fetch(url, options);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onPageRefresh = () => {
+    window.addEventListener("beforeunload", async function (e) {
+      e.preventDefault();
+      const data = await fetchAPI("/queue");
+      const Queue = data.data;
+
+      ({ Tracks, currentTrack, playbarVisible, volume, isPlaying, loop } =
+        Queue);
+
+      if (isPlaying && Tracks[currentTrack].isPlaying) {
+        Tracks[currentTrack].currentTime = audio.currentTime;
+        Tracks[currentTrack].isPlaying = true;
+        Tracks[currentTrack].duration = audio.duration;
+
+        await fetchAPI("/queue/update", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            Track: Tracks[currentTrack],
+            currentTrack,
+            playbarVisible,
+            volume,
+            isPlaying: true,
+            loop,
+          }),
+        });
+      }
+      return;
+    });
+  };
+
+  const getQueueData = async () => {
+    try {
+      const data = await fetchAPI("/queue");
+      const Queue = data.data;
+
+      ({ Tracks, currentTrack, playbarVisible, volume, isPlaying, loop } =
+        Queue);
+
+      togglePlayBar(Tracks[currentTrack]);
+
+      audio.src = Tracks[currentTrack].url;
+      audio.volume = volume;
+      audio.currentTime = Tracks[currentTrack].currentTime;
+      volumeControl.value = volume * 100;
+      Tracks[currentTrack].duration = audio.duration;
+
+      if (playbarVisible && isPlaying) {
+        await pause(Tracks[currentTrack]);
+        play_pause.classList.remove("fa-circle-pause");
+        play_pause.classList.add("fa-circle-play");
+      } else if (playbarVisible && !isPlaying) {
+        footer.click();
+        await play(Tracks[currentTrack]);
+        play_pause.classList.remove("fa-circle-play");
+        play_pause.classList.add("fa-circle-pause");
+      }
+      footer.click();
+      await play(Tracks[currentTrack]);
+      play_pause.classList.remove("fa-circle-play");
+      play_pause.classList.add("fa-circle-pause");
+      console.log("Tracks: ", Tracks);
+      console.log("currentTrack: ", currentTrack);
+      console.log("playbarVisible: ", playbarVisible);
+      console.log("volume: ", volume);
+      console.log("isPlaying: ", isPlaying);
+    } catch (error) {}
+  };
+
+  const playbar = async () => {
+    if (songs && songs.length > 0) {
+      for (let song of songs) {
+        song.addEventListener("click", async (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          const name = song.getAttribute("data-song-name");
+          const artist = song.getAttribute("data-song-artist");
+          const url = song.getAttribute("data-song-url");
+          const thumbnail = song.getAttribute("data-song-thumbnail");
+          const name1 = name.trim().toLowerCase();
+          const name2 = Tracks[currentTrack]?.name.trim().toLowerCase();
+          const duration = 0;
+          const currentTime = 0;
+          const ended = false;
+
+          if (name1 === name2) {
+            if (isPlaying) {
+              await pause(Tracks[currentTrack]);
+              play_pause.classList.remove("fa-circle-pause");
+              play_pause.classList.add("fa-circle-play");
+              return;
+            } else {
+              await play(Tracks[currentTrack]);
+              play_pause.classList.remove("fa-circle-play");
+              play_pause.classList.add("fa-circle-pause");
+              return;
+            }
+          }
+
+          const Track = {
+            name,
+            artist,
+            url,
+            thumbnail,
+            duration,
+            currentTime,
+            ended,
+            isPlaying: true,
+          };
+
+          let arr = Tracks.filter(
+            (track) =>
+              track.name.trim().toLowerCase() ===
+              Track.name.trim().toLowerCase()
+          );
+          if (arr.length > 0) {
+            currentTrack = Tracks.findIndex((track) => {
+              return (
+                track.name.trim().toLowerCase() ===
+                Track.name.trim().toLowerCase()
+              );
+            });
+            if (currentTrack === -1) return;
+            audio.src = Tracks[currentTrack].url;
+            audio.volume = volume;
+            await play(Tracks[currentTrack]);
+            await togglePlayBar(Tracks[currentTrack]);
+            if (Tracks[currentTrack].isPlaying) {
+              play_pause.classList.remove("fa-circle-play");
+              play_pause.classList.add("fa-circle-pause");
+            }
+            return;
+          }
+
+          const data = await fetchAPI("/queue/add", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              Track: Track,
+              currentTrack: currentTrack,
+              playbarVisible: playbarVisible,
+              volume: volume,
+              isPlaying: isPlaying,
+              loop: loop,
+            }),
+          });
+          const Queue = data.data;
+          ({
+            Tracks,
+            currentTrack,
+            playbarVisible,
+            volume,
+            isPlaying,
+            loop,
+          } = Queue);
+
+          audio.src = Tracks[currentTrack].url;
+          audio.volume = volume;
+          await play(Tracks[currentTrack]);
+          await togglePlayBar(Tracks[currentTrack]);
+
+          if (Tracks[currentTrack].isPlaying) {
+            play_pause.classList.remove("fa-circle-play");
+            play_pause.classList.add("fa-circle-pause");
+          }
+        });
+      }
+    }
+    volumeControl.addEventListener("input", async (e) => {
+      await volumeChange(e);
+    });
+    volumeControl.addEventListener("wheel", async (e) => {
+      await volumeScroll(e);
+    });
+    play_pause.addEventListener("click", async (e) => {
+      await playToggle(Tracks[currentTrack], e);
+    });
+    forward.addEventListener("click", async (e) => {
+      await next();
+    });
+    backward.addEventListener("click", async (e) => {
+      await previous();
+    });
+    clearQueue.addEventListener("click", async (e) => {
+      await deleteQueue();
+    });
+    repeat.addEventListener("click", async (e) => {
+      await toggleLoop(e);
+    });
+    shuffle.addEventListener("click", async (e) => {
+      await playlistShuffle();
+    });
+    audio.addEventListener("ended", async (e) => {
+      await stop();
+      if (currentTrack === Tracks.length - 1) {
+        if (!loop) {
+          await pause(Tracks[currentTrack]);
+          play_pause.classList.remove("fa-circle-pause");
+          play_pause.classList.add("fa-circle-play");
+        }
+      }
+      await next();
+    });
+  };
+
+  const playlistShuffle = async () => {
+    const FisherYatesAlgorithm = (Tracks) => {
+      let PointerIndex = Tracks.length;
+      let RandomIndex;
+      // While the Array Length or the PointerIndex is greater than 0
+      while (PointerIndex !== 0) {
+        // Pick a RandomIndex between 0 and PointerIndex - 1
+        RandomIndex = Math.floor(Math.random() * PointerIndex);
+        PointerIndex -= 1;
+
+        // Do nothing for the Current Track.
+        if (RandomIndex === currentTrack) continue;
+        if (PointerIndex === currentTrack) continue;
+
+        // Swap the PointerIndex & RandomIndex Elements.
+        [Tracks[PointerIndex], Tracks[RandomIndex]] = [
+          Tracks[RandomIndex],
+          Tracks[PointerIndex],
+        ];
+      }
+      return Tracks;
+    };
+    FisherYatesAlgorithm(Tracks);
+    new Noty({
+      theme: "metroui",
+      text: "Playlist Shuffled",
+      type: "success",
+      layout: "topRight",
+      timeout: 3000,
+    }).show();
+    await fetchAPI("/queue/shuffle", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ Tracks, currentTrack }),
+    });
+  };
+
+  const toggleLoop = async (e) => {
+    loop = !loop;
+    if (loop) e.target.classList.add("footer__green");
+    if (!loop) e.target.classList.remove("footer__green");
+    new Noty({
+      theme: "metroui",
+      text: "Loop is now " + (loop ? "ON" : "OFF"),
+      type: "success",
+      layout: "topRight",
+      timeout: 3000,
+    }).show();
+    const data = await fetchAPI("/queue/repeat", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ loop }),
+    });
+    loop = data.data.loop;
+  };
+
+  const play = async (Track) => {
+    await audio.play();
+    isPlaying = true;
+    playbarVisible = true;
+    Track.duration = audio.duration;
+    Track.currentTime = audio.currentTime;
+    Track.isPlaying = !audio.paused;
+    Track.ended = audio.ended;
+    await fetchAPI("/queue/update", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        Track,
+        currentTrack,
+        playbarVisible,
+        volume,
+        isPlaying,
+        loop,
+      }),
+    });
+  };
+
+  const pause = async (Track) => {
+    await audio.pause();
+    isPlaying = false;
+    playbarVisible = true;
+    Track.duration = audio.duration;
+    Track.currentTime = audio.currentTime;
+    Track.isPlaying = !audio.paused;
+    Track.ended = audio.ended;
+    await fetchAPI("/queue/update", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        Track,
+        currentTrack,
+        playbarVisible,
+        volume,
+        isPlaying,
+        loop,
+      }),
+    });
+  };
+
+  const stop = async () => {
+    if (!audio.src) return;
+    await audio.pause();
+    audio.currentTime = 0;
+  };
+
+  const next = async () => {
+    if (currentTrack === Tracks.length - 1 && !loop) return;
+    await stop();
+    if (currentTrack === Tracks.length - 1 && loop) currentTrack = 0;
+    else if (currentTrack !== Tracks.length - 1 && loop) currentTrack++;
+    else if (currentTrack !== Tracks.length - 1 && !loop) currentTrack++;
+    audio.src = Tracks[currentTrack].url;
+    audio.volume = volume;
+    play_pause.classList.remove("fa-circle-play");
+    play_pause.classList.add("fa-circle-pause");
+    await togglePlayBar(Tracks[currentTrack]);
+    await play(Tracks[currentTrack]);
+  };
+
+  const previous = async () => {
+    if (currentTrack === 0 && !loop) return;
+    await stop();
+    if (currentTrack === 0 && loop) currentTrack = Tracks.length - 1;
+    else if (currentTrack !== 0 && loop) currentTrack--;
+    else if (currentTrack !== 0 && !loop) currentTrack--;
+    audio.src = Tracks[currentTrack].url;
+    audio.volume = volume;
+    play_pause.classList.remove("fa-circle-play");
+    play_pause.classList.add("fa-circle-pause");
+    await togglePlayBar(Tracks[currentTrack]);
+    await play(Tracks[currentTrack]);
+  };
+
+  const deleteQueue = async () => {
+    await stop();
+    Tracks = [];
+    currentTrack = -1;
+    playbarVisible = false;
+    volume = 0.1;
+    isPlaying = false;
+    loop = false;
+    await fetchAPI("/queue/clear", { method: "DELETE" });
+    await togglePlayBar();
+  };
+
+  const volumeScroll = async (e) => {
+    e.stopPropagation();
+    if (e.deltaY < 0) {
+      e.target.valueAsNumber += 1;
+      audio.volume = e.target.value / 100;
+    } else {
+      e.target.value -= 1;
+      audio.volume = e.target.value / 100;
+    }
+    volume = audio.volume;
+    volumeControl.value = volume * 100;
+    await fetchAPI("/queue/volume", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        volume: volume,
+      }),
+    });
+    e.preventDefault();
+  };
+
+  const volumeChange = async (e) => {
+    audio.volume = e.target.value / 100;
+    volume = audio.volume;
+    volumeControl.value = volume * 100;
+    await fetchAPI("/queue/volume", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        volume: volume,
+      }),
+    });
+  };
+
+  const playToggle = async (Track, e) => {
+    if (Track.isPlaying) {
+      await pause(Track);
+      e.target.classList.remove("fa-circle-pause");
+      e.target.classList.add("fa-circle-play");
+    } else {
+      await play(Track);
+      e.target.classList.remove("fa-circle-play");
+      e.target.classList.add("fa-circle-pause");
+    }
+  };
+
+  const togglePlayBar = async (Track = []) => {
+    if (playbarVisible) {
+      footer.style.display = "flex";
+      const album = footer.querySelector(".footer__albumLogo");
+      const name = footer.querySelector(".footer__songInfo h4");
+      const artist = footer.querySelector(".footer__songInfo p");
+      album.src = Track.thumbnail;
+      name.textContent = Track.name;
+      artist.textContent = Track.artist;
+      if (loop) repeat.classList.add("footer__green");
+      if (!loop) repeat.classList.remove("footer__green");
+    } else {
+      footer.style.display = "none";
+    }
+  };
+
+  onPageRefresh();
+  getQueueData();
+  playbar();
+} catch (error) {
+  console.log(error);
+}
+}
+try {
+  let Tracks;
+  let currentTrack;
+  let playbarVisible;
+  let volume;
+  let isPlaying;
+  let loop;
+
+  let footer = document.querySelector(".footer");
+  let songs = document.querySelectorAll(".songRow");
+  let play_pause = footer.querySelector(".play-pause");
+  let audio = document.querySelector("audio");
+  let volumeControl = footer.querySelector(".song_volume");
+  let clearQueue = footer.querySelector(".clearQueue");
+  let forward = footer.querySelector(".forward");
+  let backward = footer.querySelector(".backward");
+  let repeat = footer.querySelector(".repeat");
+  let shuffle = footer.querySelector(".shuffle");
+  let bigPlayBtn = document.querySelector(".body__shuffle");
+
+  const fetchAPI = async (url, options = {}) => {
+    try {
+      const response = await fetch(url, options);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onPageRefresh = () => {
+    window.addEventListener("beforeunload", async function (e) {
+      e.preventDefault();
+      const data = await fetchAPI("/queue");
+      const Queue = data.data;
+
+      ({ Tracks, currentTrack, playbarVisible, volume, isPlaying, loop } =
+        Queue);
+
+      if (isPlaying && Tracks[currentTrack].isPlaying) {
+        Tracks[currentTrack].currentTime = audio.currentTime;
+        Tracks[currentTrack].isPlaying = true;
+        Tracks[currentTrack].duration = audio.duration;
+
+        await fetchAPI("/queue/update", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            Track: Tracks[currentTrack],
+            currentTrack,
+            playbarVisible,
+            volume,
+            isPlaying: true,
+            loop,
+          }),
+        });
+      }
+      return;
+      //For Default Prompt Message//
+      //(e || window.event).returnValue = null;
+      //return null;
+    });
+  };
+
+  const getQueueData = async () => {
+    try {
+      const data = await fetchAPI("/queue");
+      const Queue = data.data;
+
+      ({ Tracks, currentTrack, playbarVisible, volume, isPlaying, loop } =
+        Queue);
+
+      togglePlayBar(Tracks[currentTrack]);
+
+      audio.src = Tracks[currentTrack].url;
+      audio.volume = volume;
+      audio.currentTime = Tracks[currentTrack].currentTime;
+      volumeControl.value = volume * 100;
+      Tracks[currentTrack].duration = audio.duration;
+
+      if (playbarVisible && isPlaying) {
+        await pause(Tracks[currentTrack]);
+        play_pause.classList.remove("fa-circle-pause");
+        play_pause.classList.add("fa-circle-play");
+      } else if (playbarVisible && !isPlaying) {
+        footer.click();
+        await play(Tracks[currentTrack]);
+        play_pause.classList.remove("fa-circle-play");
+        play_pause.classList.add("fa-circle-pause");
+      }
+      footer.click();
+      await play(Tracks[currentTrack]);
+      play_pause.classList.remove("fa-circle-play");
+      play_pause.classList.add("fa-circle-pause");
+      console.log("Tracks: ", Tracks);
+      console.log("currentTrack: ", currentTrack);
+      console.log("playbarVisible: ", playbarVisible);
+      console.log("volume: ", volume);
+      console.log("isPlaying: ", isPlaying);
+    } catch (error) {
+      // console.log(error);
+    }
+  };
+
+  const playbar = async () => {
+    for (let song of songs) {
+      song.addEventListener("click", async (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        const name = song.getAttribute("data-song-name");
+        const artist = song.getAttribute("data-song-artist");
+        const url = song.getAttribute("data-song-url");
+        const thumbnail = song.getAttribute("data-song-thumbnail");
+        const name1 = name.trim().toLowerCase();
+        const name2 = Tracks[currentTrack]?.name.trim().toLowerCase();
+        const duration = 0;
+        const currentTime = 0;
+        const ended = false;
+
+        if (name1 === name2) {
+          if (isPlaying) {
+            await pause(Tracks[currentTrack]);
+            play_pause.classList.remove("fa-circle-pause");
+            play_pause.classList.add("fa-circle-play");
+            return;
+          } else {
+            await play(Tracks[currentTrack]);
+            play_pause.classList.remove("fa-circle-play");
+            play_pause.classList.add("fa-circle-pause");
+            return;
+          }
+        }
+
+        const Track = {
+          name,
+          artist,
+          url,
+          thumbnail,
+          duration,
+          currentTime,
+          ended,
+          isPlaying: true,
+        };
+
+        let arr = Tracks.filter(
+          (track) =>
+            track.name.trim().toLowerCase() ===
+            Track.name.trim().toLowerCase()
+        );
+        if (arr.length > 0) {
+          currentTrack = Tracks.findIndex((track) => {
+            return (
+              track.name.trim().toLowerCase() ===
+              Track.name.trim().toLowerCase()
+            );
+          });
+          if (currentTrack === -1) return;
+          audio.src = Tracks[currentTrack].url;
+          audio.volume = volume;
+          await play(Tracks[currentTrack]);
+          await togglePlayBar(Tracks[currentTrack]);
+          if (Tracks[currentTrack].isPlaying) {
+            play_pause.classList.remove("fa-circle-play");
+            play_pause.classList.add("fa-circle-pause");
+          }
+          return;
+        }
+
+        const data = await fetchAPI("/queue/add", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            Track: Track,
+            currentTrack: currentTrack,
+            playbarVisible: playbarVisible,
+            volume: volume,
+            isPlaying: isPlaying,
+            loop: loop,
+          }),
+        });
+        const Queue = data.data;
+        ({
+          Tracks,
+          currentTrack,
+          playbarVisible,
+          volume,
+          isPlaying,
+          loop,
+        } = Queue);
+
+        audio.src = Tracks[currentTrack].url;
+        audio.volume = volume;
+        await play(Tracks[currentTrack]);
+        await togglePlayBar(Tracks[currentTrack]);
+
+        if (Tracks[currentTrack].isPlaying) {
+          play_pause.classList.remove("fa-circle-play");
+          play_pause.classList.add("fa-circle-pause");
+        }
+      });
+    }
+    bigPlayBtn.addEventListener("click", async (e) => {
+      await playPlaylistQueue();
+    });
+    volumeControl.addEventListener("input", async (e) => {
+      await volumeChange(e);
+    });
+    volumeControl.addEventListener("wheel", async (e) => {
+      await volumeScroll(e);
+    });
+    play_pause.addEventListener("click", async (e) => {
+      await playToggle(Tracks[currentTrack], e);
+    });
+    forward.addEventListener("click", async (e) => {
+      await next();
+    });
+    backward.addEventListener("click", async (e) => {
+      await previous();
+    });
+    clearQueue.addEventListener("click", async (e) => {
+      await deleteQueue();
+    });
+    repeat.addEventListener("click", async (e) => {
+      await toggleLoop(e);
+    });
+    shuffle.addEventListener("click", async (e) => {
+      await playlistShuffle();
+    });
+    audio.addEventListener("ended", async (e) => {
+      await stop();
+      if (currentTrack === Tracks.length - 1) {
+        if (!loop) {
+          await pause(Tracks[currentTrack]);
+          play_pause.classList.remove("fa-circle-pause");
+          play_pause.classList.add("fa-circle-play");
+        }
+      }
+      await next();
+    });
+  };
+
+  const fillPlaylistQueue = async (song) => {
+    const name = song.getAttribute("data-song-name");
+    const artist = song.getAttribute("data-song-artist");
+    const url = song.getAttribute("data-song-url");
+    const thumbnail = song.getAttribute("data-song-thumbnail");
+    const duration = 0;
+    const currentTime = 0;
+    const ended = false;
+
+    Tracks.push({
+      name,
+      artist,
+      url,
+      thumbnail,
+      duration,
+      currentTime,
+      ended,
+      isPlaying: true,
+    });
+  };
+
+  const playPlaylistQueue = async () => {
+    await deleteQueue();
+    for (let song of songs) fillPlaylistQueue(song);
+    const data = await fetchAPI("/queue/add-songs", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        Tracks: Tracks,
+        currentTrack: currentTrack,
+        playbarVisible: playbarVisible,
+        volume: volume,
+        isPlaying: isPlaying,
+        loop: loop,
+      }),
+    });
+    const Queue = data.data;
+    ({ Tracks, currentTrack, playbarVisible, volume, isPlaying, loop } =
+      Queue);
+
+    audio.src = Tracks[currentTrack].url;
+    audio.volume = volume;
+    await play(Tracks[currentTrack]);
+    await togglePlayBar(Tracks[currentTrack]);
+
+    if (Tracks[currentTrack].isPlaying) {
+      play_pause.classList.remove("fa-circle-play");
+      play_pause.classList.add("fa-circle-pause");
+    }
+  };
+
+  const playlistShuffle = async () => {
+    const FisherYatesAlgorithm = (Tracks) => {
+      let PointerIndex = Tracks.length;
+      let RandomIndex;
+      // While the Array Length or the PointerIndex is greater than 0
+      while (PointerIndex !== 0) {
+        // Pick a RandomIndex between 0 and PointerIndex - 1
+        RandomIndex = Math.floor(Math.random() * PointerIndex);
+        PointerIndex -= 1;
+
+        // Do nothing for the Current Track.
+        if (RandomIndex === currentTrack) continue;
+        if (PointerIndex === currentTrack) continue;
+
+        // Swap the PointerIndex & RandomIndex Elements.
+        [Tracks[PointerIndex], Tracks[RandomIndex]] = [
+          Tracks[RandomIndex],
+          Tracks[PointerIndex],
+        ];
+      }
+      return Tracks;
+    };
+    FisherYatesAlgorithm(Tracks);
+    new Noty({
+      theme: "metroui",
+      text: "Playlist Shuffled",
+      type: "success",
+      layout: "topRight",
+      timeout: 3000,
+    }).show();
+    await fetchAPI("/queue/shuffle", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ Tracks, currentTrack }),
+    });
+  };
+
+  const toggleLoop = async (e) => {
+    loop = !loop;
+    if (loop) e.target.classList.add("footer__green");
+    if (!loop) e.target.classList.remove("footer__green");
+    new Noty({
+      theme: "metroui",
+      text: "Loop is now " + (loop ? "ON" : "OFF"),
+      type: "success",
+      layout: "topRight",
+      timeout: 3000,
+    }).show();
+    const data = await fetchAPI("/queue/repeat", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ loop }),
+    });
+    loop = data.data.loop;
+  };
+
+  const play = async (Track) => {
+    await audio.play();
+    isPlaying = true;
+    playbarVisible = true;
+    Track.duration = audio.duration;
+    Track.currentTime = audio.currentTime;
+    Track.isPlaying = !audio.paused;
+    Track.ended = audio.ended;
+    await fetchAPI("/queue/update", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        Track,
+        currentTrack,
+        playbarVisible,
+        volume,
+        isPlaying,
+        loop,
+      }),
+    });
+  };
+
+  const pause = async (Track) => {
+    await audio.pause();
+    isPlaying = false;
+    playbarVisible = true;
+    Track.duration = audio.duration;
+    Track.currentTime = audio.currentTime;
+    Track.isPlaying = !audio.paused;
+    Track.ended = audio.ended;
+    await fetchAPI("/queue/update", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        Track,
+        currentTrack,
+        playbarVisible,
+        volume,
+        isPlaying,
+        loop,
+      }),
+    });
+  };
+
+  const stop = async () => {
+    if (!audio.src) return;
+    await audio.pause();
+    audio.currentTime = 0;
+  };
+
+  const next = async () => {
+    if (currentTrack === Tracks.length - 1 && !loop) return;
+    await stop();
+    if (currentTrack === Tracks.length - 1 && loop) currentTrack = 0;
+    else if (currentTrack !== Tracks.length - 1 && loop) currentTrack++;
+    else if (currentTrack !== Tracks.length - 1 && !loop) currentTrack++;
+    audio.src = Tracks[currentTrack].url;
+    audio.volume = volume;
+    play_pause.classList.remove("fa-circle-play");
+    play_pause.classList.add("fa-circle-pause");
+    await togglePlayBar(Tracks[currentTrack]);
+    await play(Tracks[currentTrack]);
+  };
+
+  const previous = async () => {
+    if (currentTrack === 0 && !loop) return;
+    await stop();
+    if (currentTrack === 0 && loop) currentTrack = Tracks.length - 1;
+    else if (currentTrack !== 0 && loop) currentTrack--;
+    else if (currentTrack !== 0 && !loop) currentTrack--;
+    audio.src = Tracks[currentTrack].url;
+    audio.volume = volume;
+    play_pause.classList.remove("fa-circle-play");
+    play_pause.classList.add("fa-circle-pause");
+    await togglePlayBar(Tracks[currentTrack]);
+    await play(Tracks[currentTrack]);
+  };
+
+  const deleteQueue = async () => {
+    await stop();
+    Tracks = [];
+    currentTrack = -1;
+    playbarVisible = false;
+    volume = 0.1;
+    isPlaying = false;
+    loop = false;
+    await fetchAPI("/queue/clear", { method: "DELETE" });
+    await togglePlayBar();
+  };
+
+  const volumeScroll = async (e) => {
+    e.stopPropagation();
+    if (e.deltaY < 0) {
+      e.target.valueAsNumber += 1;
+      audio.volume = e.target.value / 100;
+    } else {
+      e.target.value -= 1;
+      audio.volume = e.target.value / 100;
+    }
+    volume = audio.volume;
+    volumeControl.value = volume * 100;
+    await fetchAPI("/queue/volume", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        volume: volume,
+      }),
+    });
+    e.preventDefault();
+  };
+
+  const volumeChange = async (e) => {
+    audio.volume = e.target.value / 100;
+    volume = audio.volume;
+    volumeControl.value = volume * 100;
+    await fetchAPI("/queue/volume", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        volume: volume,
+      }),
+    });
+  };
+
+  const playToggle = async (Track, e) => {
+    if (Track.isPlaying) {
+      await pause(Track);
+      e.target.classList.remove("fa-circle-pause");
+      e.target.classList.add("fa-circle-play");
+    } else {
+      await play(Track);
+      e.target.classList.remove("fa-circle-play");
+      e.target.classList.add("fa-circle-pause");
+    }
+  };
+
+  const togglePlayBar = async (Track = []) => {
+    if (playbarVisible) {
+      footer.style.display = "flex";
+      const album = footer.querySelector(".footer__albumLogo");
+      const name = footer.querySelector(".footer__songInfo h4");
+      const artist = footer.querySelector(".footer__songInfo p");
+      album.src = Track.thumbnail;
+      name.textContent = Track.name;
+      artist.textContent = Track.artist;
+      if (loop) repeat.classList.add("footer__green");
+      if (!loop) repeat.classList.remove("footer__green");
+    } else {
+      footer.style.display = "none";
+    }
+  };
+
+  onPageRefresh();
+  getQueueData();
+  playbar();
+} catch (error) {
+  console.log(error);
+}
+
+class Like {
+constructor(element) {
+  this.toggler = element;
+  this.toggleLike(this.toggler);
+}
+toggleLike(toggler) {
+  const self = this;
+  toggler.addEventListener("click", async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const innerSelf = e.target;
+    let likesCount = innerSelf.getAttribute("data-likes");
+    const url = innerSelf.getAttribute("data-url");
+    const data = await self.fetchData(url, "POST");
+    if (data.response === "error") return;
+    self.notify(data.message, data.response);
+    self.configureLike(data.data.liked, likesCount, innerSelf);
+  });
+}
+async fetchData(url, method, body = {}) {
+  const response = await fetch(url, {
+    method: method,
+    body: body,
+  });
+  const data = await response.json();
+  return data;
+}
+notify(message, type) {
+  new Noty({
+    theme: "metroui",
+    text: message,
+    type: type,
+    layout: "topRight",
+    timeout: 3000,
+  }).show();
+}
+configureLike(liked, likesCount, innerSelf) {
+  if (innerSelf.getAttribute("data-liked")) {
+    innerSelf.parentElement.remove();
+    return;
+  }
+  if (liked) innerSelf.style.color = "#1ed15e";
+  if (liked) likesCount++;
+  if (!liked) innerSelf.style.color = "#fff";
+  if (!liked) likesCount--;
+  innerSelf.setAttribute("data-likes", likesCount);
+}
+}
+
+{
+try {
+  for (let btn of document.getElementsByClassName("toggle-like-button")) {
+    const like = new Like(btn);
+  }
+} catch (error) {
+  console.log(error);
+}
+}
+
+
+
+
+
+  }
+</script>
